@@ -5,11 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Zenith Pomodoro | 45m Ambient Focus Timer</title>
 
-  <!-- SEO & Standard Metadata -->
+  <!-- SEO & Metadata -->
   <meta name="description" content="A minimalist dark-mode 45-minute countdown timer featuring continuous hue-shifting radial gradients, animated SVG backdrops, and procedural ambient sound synthesis.">
   <meta name="theme-color" content="#07070d">
 
-  <!-- Open Graph / Facebook / LinkedIn / WhatsApp -->
+  <!-- Open Graph / WhatsApp / Facebook / LinkedIn -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://sjm-maker.github.io/pomodoro-timer/">
   <meta property="og:title" content="Zenith Pomodoro — Ambient Deep Focus Timer">
@@ -24,15 +24,15 @@
   <meta name="twitter:description" content="45-minute focus countdown timer with procedural ambient noisescapes, rhythmic clock ticks, and calm organic gradients.">
   <meta name="twitter:image" content="https://sjm-maker.github.io/pomodoro-timer/preview.png">
 
-  <!-- Crisp Inline SVG Favicon (No extra files needed) -->
+  <!-- Inline SVG Favicon -->
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><circle cx='32' cy='32' r='28' fill='%2307070d'/><circle cx='32' cy='32' r='24' fill='none' stroke='url(%23grad)' stroke-width='4' stroke-dasharray='100 50'/><circle cx='32' cy='32' r='5' fill='%23ec4899'/><defs><linearGradient id='grad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'><stop offset='0%25' stop-color='%236366f1'/><stop offset='50%25' stop-color='%23ec4899'/><stop offset='100%25' stop-color='%2306b6d4'/></linearGradient></defs></svg>">
 
   <!-- Web Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
-  
-  <!-- CSS Styles continue below... -->
+
+  <style>
     :root {
       --bg: #07070d;
       --card-bg: rgba(18, 18, 28, 0.65);
@@ -618,7 +618,7 @@
           <div class="sound-item-top">
             <div class="sound-info">
               <div class="sound-icon">⏱️</div>
-              <div class="soundlabels">
+              <div class="sound-labels">
                 <div class="sound-title">Clock Tick</div>
                 <div class="sound-desc">Soft rhythmic pulse</div>
               </div>
@@ -736,7 +736,6 @@
         this.masterGain.gain.setValueAtTime(0.8, this.ctx.currentTime);
         this.masterGain.connect(this.ctx.destination);
 
-        // Setup sound individual gain branches
         for (let key in this.sounds) {
           const g = this.ctx.createGain();
           g.gain.setValueAtTime(this.sounds[key].enabled ? this.sounds[key].userVol : 0, this.ctx.currentTime);
@@ -828,7 +827,6 @@
         const tickGain = this.ctx.createGain();
         const filter = this.ctx.createBiquadFilter();
 
-        // High precision tick/tock frequency shift
         osc.frequency.setValueAtTime(isEven ? 1320 : 980, this.ctx.currentTime);
         osc.type = 'triangle';
 
@@ -1034,7 +1032,6 @@
           remainingSeconds--;
           updateProgressVisual();
 
-          // Trigger mechanical audio tick and visual dot pulse
           tickFlip = !tickFlip;
           audio.playTick(tickFlip);
           liveTickDot.classList.add('pulse');
