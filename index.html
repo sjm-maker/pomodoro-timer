@@ -3,27 +3,27 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Zenith Pomodoro | 45m Ambient Focus Timer</title>
+  <title>Zenith Pomodoro | 45m Ocean Focus Timer</title>
 
   <!-- SEO & Social Preview Tags -->
-  <meta name="description" content="A minimalist dark-mode 45-minute countdown timer with ambient soundscapes and a swinging harmonic pendulum backdrop.">
-  <meta name="theme-color" content="#06060a">
+  <meta name="description" content="A minimalist dark-mode 45-minute countdown timer with ambient soundscapes and continuous multi-layered ambient SVG ocean waves.">
+  <meta name="theme-color" content="#030712">
 
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://sjm-maker.github.io/pomodoro-timer/">
-  <meta property="og:title" content="Zenith Pomodoro — Ambient Deep Focus Timer">
-  <meta property="og:description" content="45-minute focus countdown timer with procedural ambient noisescapes, rhythmic clock ticks, and a swinging pendulum backdrop.">
+  <meta property="og:title" content="Zenith Pomodoro — Ambient Ocean Focus Timer">
+  <meta property="og:description" content="45-minute focus countdown timer with procedural ambient noisescapes, rhythmic clock ticks, and an undulating layered ocean backdrop.">
   <meta property="og:image" content="https://sjm-maker.github.io/pomodoro-timer/preview.png">
 
   <meta name="twitter:card" content="summary_large_image">
   <meta property="twitter:domain" content="sjm-maker.github.io">
   <meta property="twitter:url" content="https://sjm-maker.github.io/pomodoro-timer/">
-  <meta name="twitter:title" content="Zenith Pomodoro — Ambient Deep Focus Timer">
-  <meta name="twitter:description" content="45-minute focus countdown timer with procedural ambient noisescapes, rhythmic clock ticks, and a swinging pendulum backdrop.">
+  <meta name="twitter:title" content="Zenith Pomodoro — Ambient Ocean Focus Timer">
+  <meta name="twitter:description" content="45-minute focus countdown timer with procedural ambient noisescapes, rhythmic clock ticks, and an undulating layered ocean backdrop.">
   <meta name="twitter:image" content="https://sjm-maker.github.io/pomodoro-timer/preview.png">
 
   <!-- Crisp Inline SVG Favicon -->
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><circle cx='32' cy='32' r='28' fill='%2306060a'/><circle cx='32' cy='32' r='24' fill='none' stroke='url(%23grad)' stroke-width='4' stroke-dasharray='100 50'/><circle cx='32' cy='32' r='5' fill='%23ec4899'/><defs><linearGradient id='grad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'><stop offset='0%25' stop-color='%236366f1'/><stop offset='50%25' stop-color='%23ec4899'/><stop offset='100%25' stop-color='%2306b6d4'/></linearGradient></defs></svg>">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><circle cx='32' cy='32' r='28' fill='%23030712'/><circle cx='32' cy='32' r='24' fill='none' stroke='url(%23grad)' stroke-width='4' stroke-dasharray='100 50'/><circle cx='32' cy='32' r='5' fill='%2306b6d4'/><defs><linearGradient id='grad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'><stop offset='0%25' stop-color='%236366f1'/><stop offset='50%25' stop-color='%2306b6d4'/><stop offset='100%25' stop-color='%2310b981'/></linearGradient></defs></svg>">
 
   <!-- Typography -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -32,15 +32,15 @@
 
   <style>
     :root {
-      --bg: #06060b;
-      --card-bg: rgba(15, 15, 26, 0.45);
+      --bg: #030712;
+      --card-bg: rgba(10, 16, 30, 0.52);
       --card-border: rgba(255, 255, 255, 0.12);
       --card-highlight: rgba(255, 255, 255, 0.16);
-      --text: #f3f3f8;
-      --text-muted: #8b8ba4;
+      --text: #f0f4fc;
+      --text-muted: #8391af;
       --accent-1: #6366f1;
-      --accent-2: #ec4899;
-      --accent-3: #06b6d4;
+      --accent-2: #06b6d4;
+      --accent-3: #10b981;
     }
 
     * {
@@ -60,107 +60,97 @@
       justify-content: center;
       position: relative;
       overflow-x: hidden;
-      padding: 32px 16px;
+      padding: 36px 16px;
     }
 
-    /* SVG Grain & Filter Definitions */
-    .svg-defs-container {
-      position: absolute;
-      width: 0;
-      height: 0;
-      pointer-events: none;
-      opacity: 0;
-    }
-
-    /* Ambient Space Texture */
-    .noise-overlay {
+    /* Ambient Ocean SVG Scenery */
+    .ocean-stage {
       position: fixed;
       inset: 0;
       width: 100vw;
       height: 100vh;
-      opacity: 0.04;
-      pointer-events: none;
-      z-index: 1;
-      background-repeat: repeat;
-      filter: contrast(160%);
-    }
-
-    /* Giant Background Pendulum Rig */
-    .pendulum-rig {
-      position: fixed;
-      top: -40px;
-      left: 50%;
-      width: 4px;
-      height: 96vh;
-      transform-origin: top center;
       z-index: 0;
       pointer-events: none;
-      animation: pendulumHarmonic 2s cubic-bezier(0.445, 0.05, 0.55, 0.95) infinite alternate;
+      overflow: hidden;
+      background: radial-gradient(circle at 50% 20%, #0a1128 0%, #030712 90%);
     }
 
-    @keyframes pendulumHarmonic {
-      0% {
-        transform: translate(-50%, 0) rotate(-26deg);
-      }
-      100% {
-        transform: translate(-50%, 0) rotate(26deg);
-      }
+    .ocean-svg {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 200%;
+      height: 70vh;
+      min-height: 440px;
     }
 
-    @keyframes hueShiftAll {
+    /* Harmonic Wave Oscillations */
+    @keyframes waveRoll1 {
+      0% { transform: translateX(0) translateZ(0) scaleY(1); }
+      50% { transform: translateX(-25%) translateZ(0) scaleY(1.08); }
+      100% { transform: translateX(-50%) translateZ(0) scaleY(1); }
+    }
+    @keyframes waveRoll2 {
+      0% { transform: translateX(0) translateZ(0) scaleY(1.05); }
+      50% { transform: translateX(-30%) translateZ(0) scaleY(0.92); }
+      100% { transform: translateX(-50%) translateZ(0) scaleY(1.05); }
+    }
+    @keyframes waveRoll3 {
+      0% { transform: translateX(-40%) translateZ(0) scaleY(0.95); }
+      50% { transform: translateX(-15%) translateZ(0) scaleY(1.1); }
+      100% { transform: translateX(-40%) translateZ(0) scaleY(0.95); }
+    }
+    @keyframes waveRoll4 {
+      0% { transform: translateX(-10%) translateZ(0) scaleY(1); }
+      50% { transform: translateX(-35%) translateZ(0) scaleY(1.15); }
+      100% { transform: translateX(-10%) translateZ(0) scaleY(1); }
+    }
+
+    .wave-layer-1 {
+      animation: waveRoll1 28s ease-in-out infinite;
+      opacity: 0.35;
+    }
+    .wave-layer-2 {
+      animation: waveRoll2 22s ease-in-out infinite;
+      opacity: 0.45;
+    }
+    .wave-layer-3 {
+      animation: waveRoll3 17s ease-in-out infinite;
+      opacity: 0.65;
+    }
+    .wave-layer-4 {
+      animation: waveRoll4 13s ease-in-out infinite;
+      opacity: 0.85;
+    }
+
+    /* Ambient Hue Shimmer across the Water */
+    @keyframes oceanColorDrift {
       0% { filter: hue-rotate(0deg); }
-      50% { filter: hue-rotate(180deg); }
-      100% { filter: hue-rotate(360deg); }
+      50% { filter: hue-rotate(35deg); }
+      100% { filter: hue-rotate(0deg); }
     }
 
-    .pendulum-hue-rotator {
+    .ocean-color-wrap {
       width: 100%;
       height: 100%;
-      position: relative;
-      animation: hueShiftAll 20s linear infinite;
+      position: absolute;
+      inset: 0;
+      animation: oceanColorDrift 25s ease-in-out infinite;
     }
 
-    /* Pendulum Rod */
-    .pendulum-rod {
+    /* Subtle Bioluminescent Sky Particle Glows */
+    .sky-glow {
       position: absolute;
-      top: 0;
+      top: 15%;
       left: 50%;
       transform: translateX(-50%);
-      width: 2px;
-      height: 82%;
-      background: linear-gradient(180deg, rgba(255, 255, 255, 0.4) 0%, rgba(99, 102, 241, 0.25) 50%, rgba(236, 72, 153, 0.8) 100%);
-      box-shadow: 0 0 16px rgba(99, 102, 241, 0.6);
+      width: 550px;
+      height: 350px;
+      background: radial-gradient(circle, rgba(14, 165, 233, 0.18) 0%, rgba(99, 102, 241, 0.12) 40%, transparent 70%);
+      filter: blur(40px);
     }
 
-    /* Giant Fuzzy, Grainy Pendulum Bob */
-    .pendulum-bob {
-      position: absolute;
-      bottom: 0;
-      left: 50%;
-      transform: translate(-50%, 50%);
-      width: 280px;
-      height: 280px;
-      border-radius: 50%;
-      background: radial-gradient(circle, #ec4899 0%, #8b5cf6 35%, #06b6d4 65%, transparent 75%);
-      filter: url(#pendulumFuzzGrain) blur(22px);
-      opacity: 0.62;
-    }
-
-    .pendulum-bob-core {
-      position: absolute;
-      bottom: 0;
-      left: 50%;
-      transform: translate(-50%, 50%);
-      width: 140px;
-      height: 140px;
-      border-radius: 50%;
-      background: radial-gradient(circle, #ffffff 0%, #ec4899 45%, transparent 70%);
-      filter: blur(8px);
-      opacity: 0.8;
-      box-shadow: 0 0 80px rgba(236, 72, 153, 0.9), 0 0 160px rgba(99, 102, 241, 0.7);
-    }
-
-    /* Unified Glass Container Card */
+    /* Refractive Glass Card */
     .glass-monolith {
       position: relative;
       z-index: 2;
@@ -174,16 +164,15 @@
       border-radius: 36px;
       background: var(--card-bg);
       border: 1px solid var(--card-border);
-      backdrop-filter: blur(48px) saturate(180%);
-      -webkit-backdrop-filter: blur(48px) saturate(180%);
+      backdrop-filter: blur(48px) saturate(190%);
+      -webkit-backdrop-filter: blur(48px) saturate(190%);
       box-shadow: 
-        0 30px 80px -15px rgba(0, 0, 0, 0.75),
+        0 30px 80px -15px rgba(0, 0, 0, 0.8),
         0 0 0 1px rgba(255, 255, 255, 0.05),
         inset 0 1px 1px var(--card-highlight),
         inset 0 -1px 1px rgba(0, 0, 0, 0.4);
     }
 
-    /* Header */
     header {
       text-align: center;
       display: flex;
@@ -208,15 +197,15 @@
       width: 6px;
       height: 6px;
       border-radius: 50%;
-      background: #10b981;
-      box-shadow: 0 0 8px #10b981;
+      background: #06b6d4;
+      box-shadow: 0 0 8px #06b6d4;
     }
 
     /* Radial Clock Face */
     @keyframes hueRotateRing {
-      0% { filter: hue-rotate(0deg) drop-shadow(0 0 20px rgba(99, 102, 241, 0.45)); }
-      50% { filter: hue-rotate(180deg) drop-shadow(0 0 28px rgba(236, 72, 153, 0.5)); }
-      100% { filter: hue-rotate(360deg) drop-shadow(0 0 20px rgba(99, 102, 241, 0.45)); }
+      0% { filter: hue-rotate(0deg) drop-shadow(0 0 20px rgba(6, 182, 212, 0.45)); }
+      50% { filter: hue-rotate(180deg) drop-shadow(0 0 28px rgba(99, 102, 241, 0.5)); }
+      100% { filter: hue-rotate(360deg) drop-shadow(0 0 20px rgba(6, 182, 212, 0.45)); }
     }
 
     .clock-stage {
@@ -269,7 +258,7 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      background: radial-gradient(circle, rgba(14, 14, 25, 0.72) 0%, rgba(7, 7, 13, 0.9) 100%);
+      background: radial-gradient(circle, rgba(12, 20, 36, 0.75) 0%, rgba(4, 8, 18, 0.92) 100%);
       width: 236px;
       height: 236px;
       border-radius: 50%;
@@ -302,7 +291,7 @@
       width: 6px;
       height: 6px;
       border-radius: 50%;
-      background: #6366f1;
+      background: #06b6d4;
       opacity: 0.3;
       transition: opacity 0.12s ease, transform 0.12s ease;
     }
@@ -310,7 +299,7 @@
     .live-tick-dot.pulse {
       opacity: 1;
       transform: scale(1.6);
-      box-shadow: 0 0 10px #6366f1;
+      box-shadow: 0 0 10px #06b6d4;
     }
 
     /* Presets */
@@ -342,9 +331,9 @@
     }
 
     .preset-btn.active {
-      background: rgba(99, 102, 241, 0.3);
+      background: rgba(6, 182, 212, 0.25);
       color: #ffffff;
-      border: 1px solid rgba(99, 102, 241, 0.5);
+      border: 1px solid rgba(6, 182, 212, 0.5);
     }
 
     /* Controls */
@@ -355,7 +344,7 @@
     }
 
     .btn-primary {
-      background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+      background: linear-gradient(135deg, #0284c7 0%, #6366f1 100%);
       color: white;
       border: none;
       padding: 13px 36px;
@@ -366,13 +355,13 @@
       display: flex;
       align-items: center;
       gap: 10px;
-      box-shadow: 0 4px 20px rgba(99, 102, 241, 0.35);
+      box-shadow: 0 4px 20px rgba(2, 132, 199, 0.35);
       transition: transform 0.15s ease, box-shadow 0.2s ease, filter 0.2s ease;
     }
 
     .btn-primary:hover {
       transform: translateY(-2px);
-      box-shadow: 0 8px 28px rgba(99, 102, 241, 0.5);
+      box-shadow: 0 8px 28px rgba(2, 132, 199, 0.5);
       filter: brightness(1.08);
     }
 
@@ -398,7 +387,7 @@
     /* Ambient Mixer Subpanel */
     .soundboard-section {
       width: 100%;
-      background: rgba(10, 10, 18, 0.45);
+      background: rgba(6, 11, 22, 0.5);
       border: 1px solid rgba(255, 255, 255, 0.06);
       border-radius: 20px;
       padding: 18px 20px;
@@ -451,8 +440,8 @@
     }
 
     .sound-item.active {
-      background: rgba(99, 102, 241, 0.1);
-      border-color: rgba(99, 102, 241, 0.35);
+      background: rgba(6, 182, 212, 0.1);
+      border-color: rgba(6, 182, 212, 0.35);
     }
 
     .sound-item-top {
@@ -479,8 +468,8 @@
     }
 
     .sound-item.active .sound-icon {
-      background: rgba(99, 102, 241, 0.25);
-      color: #818cf8;
+      background: rgba(6, 182, 212, 0.25);
+      color: #38bdf8;
     }
 
     .sound-title {
@@ -523,13 +512,13 @@
       border-radius: 50%;
     }
     input:checked + .slider {
-      background-color: #6366f1;
+      background-color: #06b6d4;
     }
     input:checked + .slider:before {
       transform: translateX(16px);
     }
 
-    /* Sliders */
+    /* Custom Sliders */
     input[type=range] {
       -webkit-appearance: none;
       appearance: none;
@@ -545,16 +534,16 @@
       width: 13px;
       height: 13px;
       border-radius: 50%;
-      background: #818cf8;
+      background: #38bdf8;
       cursor: pointer;
-      box-shadow: 0 0 6px rgba(129, 140, 248, 0.6);
+      box-shadow: 0 0 6px rgba(56, 189, 248, 0.6);
       transition: transform 0.1s ease;
     }
     input[type=range]::-webkit-slider-thumb:hover {
       transform: scale(1.2);
     }
 
-    /* Footer Indicators */
+    /* Footer */
     footer {
       font-size: 0.72rem;
       color: rgba(255, 255, 255, 0.3);
@@ -572,26 +561,50 @@
 </head>
 <body>
 
-  <!-- SVG Grain & Fuzz Filter Engine -->
-  <svg class="svg-defs-container">
-    <defs>
-      <filter id="pendulumFuzzGrain" x="-50%" y="-50%" width="200%" height="200%">
-        <!-- Fractal noise generation for grainy diffusion -->
-        <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" result="noise" />
-        <feColorMatrix type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 0.45 0" in="noise" result="coloredNoise" />
-        <feDisplacementMap in="SourceGraphic" in2="noise" scale="35" xChannelSelector="R" yChannelSelector="G" result="displaced" />
-        <feGaussianBlur in="displaced" stdDeviation="16" result="blurred" />
-        <feBlend in="blurred" in2="coloredNoise" mode="screen" />
-      </filter>
-    </defs>
-  </svg>
+  <!-- Ambient Multi-Layered Moving SVG Ocean -->
+  <div class="ocean-stage">
+    <div class="sky-glow"></div>
+    <div class="ocean-color-wrap">
+      <svg class="ocean-svg" viewBox="0 0 1440 600" preserveAspectRatio="none">
+        <defs>
+          <linearGradient id="oceanGrad1" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#312e81" stop-opacity="0.8" />
+            <stop offset="100%" stop-color="#030712" stop-opacity="1" />
+          </linearGradient>
+          <linearGradient id="oceanGrad2" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#0e7490" stop-opacity="0.75" />
+            <stop offset="100%" stop-color="#021427" stop-opacity="1" />
+          </linearGradient>
+          <linearGradient id="oceanGrad3" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#0284c7" stop-opacity="0.85" />
+            <stop offset="100%" stop-color="#020c1b" stop-opacity="1" />
+          </linearGradient>
+          <linearGradient id="oceanGrad4" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#06b6d4" stop-opacity="0.9" />
+            <stop offset="100%" stop-color="#030712" stop-opacity="1" />
+          </linearGradient>
+        </defs>
 
-  <!-- Giant Glowing Gradient Shift, Fuzzy, Grainy Pendulum in Background -->
-  <div class="pendulum-rig">
-    <div class="pendulum-hue-rotator">
-      <div class="pendulum-rod"></div>
-      <div class="pendulum-bob"></div>
-      <div class="pendulum-bob-core"></div>
+        <!-- Deep Distant Swell (Layer 1) -->
+        <g class="wave-layer-1">
+          <path fill="url(#oceanGrad1)" d="M0,192 C240,140 480,240 720,180 C960,120 1200,210 1440,160 C1680,110 1920,240 2160,180 C2400,120 2640,210 2880,170 L2880,600 L0,600 Z"/>
+        </g>
+
+        <!-- Midground Ocean Layer (Layer 2) -->
+        <g class="wave-layer-2">
+          <path fill="url(#oceanGrad2)" d="M0,240 C320,170 540,290 840,220 C1140,150 1320,270 1620,210 C1920,150 2200,270 2520,200 C2740,140 2820,240 2880,220 L2880,600 L0,600 Z"/>
+        </g>
+
+        <!-- Dynamic Tidal Layer (Layer 3) -->
+        <g class="wave-layer-3">
+          <path fill="url(#oceanGrad3)" d="M0,280 C200,230 460,320 760,260 C1060,200 1280,310 1560,250 C1840,190 2120,300 2420,240 C2640,190 2760,270 2880,250 L2880,600 L0,600 Z"/>
+        </g>
+
+        <!-- Foreground Bioluminescent Wave Crest (Layer 4) -->
+        <g class="wave-layer-4">
+          <path fill="url(#oceanGrad4)" d="M0,340 C180,300 380,380 620,330 C860,280 1100,370 1380,310 C1660,250 1940,360 2220,310 C2500,260 2720,330 2880,320 L2880,600 L0,600 Z"/>
+        </g>
+      </svg>
     </div>
   </div>
 
@@ -609,9 +622,9 @@
         <svg class="clock-svg" viewBox="0 0 320 320">
           <defs>
             <linearGradient id="ringGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stop-color="#6366f1" />
-              <stop offset="50%" stop-color="#ec4899" />
-              <stop offset="100%" stop-color="#06b6d4" />
+              <stop offset="0%" stop-color="#06b6d4" />
+              <stop offset="50%" stop-color="#6366f1" />
+              <stop offset="100%" stop-color="#10b981" />
             </linearGradient>
           </defs>
           <circle class="track-bg" cx="160" cy="160" r="140"></circle>
@@ -1049,7 +1062,7 @@
       const mins = Math.floor(remainingSeconds / 60);
       const secs = remainingSeconds % 60;
       timeDisplay.textContent = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
-      document.title = `${timeDisplay.textContent} • Deep Focus`;
+      document.title = `${timeDisplay.textContent} • Ocean Focus`;
     }
 
     function toggleTimer() {
