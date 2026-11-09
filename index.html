@@ -5,40 +5,39 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Zenith Pomodoro | 45m Ambient Focus Timer</title>
 
-  <!-- SEO & Metadata -->
-  <meta name="description" content="A minimalist dark-mode 45-minute countdown timer featuring continuous hue-shifting radial gradients, animated SVG backdrops, and procedural ambient sound synthesis.">
-  <meta name="theme-color" content="#07070d">
+  <!-- SEO & Social Preview Tags -->
+  <meta name="description" content="A minimalist dark-mode 45-minute countdown timer with ambient soundscapes and a swinging harmonic pendulum backdrop.">
+  <meta name="theme-color" content="#06060a">
 
-  <!-- Open Graph / WhatsApp / Facebook / LinkedIn -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://sjm-maker.github.io/pomodoro-timer/">
   <meta property="og:title" content="Zenith Pomodoro — Ambient Deep Focus Timer">
-  <meta property="og:description" content="45-minute focus countdown timer with procedural ambient noisescapes, rhythmic clock ticks, and calm organic gradients.">
+  <meta property="og:description" content="45-minute focus countdown timer with procedural ambient noisescapes, rhythmic clock ticks, and a swinging pendulum backdrop.">
   <meta property="og:image" content="https://sjm-maker.github.io/pomodoro-timer/preview.png">
 
-  <!-- Twitter / X Card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta property="twitter:domain" content="sjm-maker.github.io">
   <meta property="twitter:url" content="https://sjm-maker.github.io/pomodoro-timer/">
   <meta name="twitter:title" content="Zenith Pomodoro — Ambient Deep Focus Timer">
-  <meta name="twitter:description" content="45-minute focus countdown timer with procedural ambient noisescapes, rhythmic clock ticks, and calm organic gradients.">
+  <meta name="twitter:description" content="45-minute focus countdown timer with procedural ambient noisescapes, rhythmic clock ticks, and a swinging pendulum backdrop.">
   <meta name="twitter:image" content="https://sjm-maker.github.io/pomodoro-timer/preview.png">
 
-  <!-- Inline SVG Favicon -->
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><circle cx='32' cy='32' r='28' fill='%2307070d'/><circle cx='32' cy='32' r='24' fill='none' stroke='url(%23grad)' stroke-width='4' stroke-dasharray='100 50'/><circle cx='32' cy='32' r='5' fill='%23ec4899'/><defs><linearGradient id='grad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'><stop offset='0%25' stop-color='%236366f1'/><stop offset='50%25' stop-color='%23ec4899'/><stop offset='100%25' stop-color='%2306b6d4'/></linearGradient></defs></svg>">
+  <!-- Crisp Inline SVG Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><circle cx='32' cy='32' r='28' fill='%2306060a'/><circle cx='32' cy='32' r='24' fill='none' stroke='url(%23grad)' stroke-width='4' stroke-dasharray='100 50'/><circle cx='32' cy='32' r='5' fill='%23ec4899'/><defs><linearGradient id='grad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'><stop offset='0%25' stop-color='%236366f1'/><stop offset='50%25' stop-color='%23ec4899'/><stop offset='100%25' stop-color='%2306b6d4'/></linearGradient></defs></svg>">
 
-  <!-- Web Fonts -->
+  <!-- Typography -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
 
   <style>
     :root {
-      --bg: #07070d;
-      --card-bg: rgba(18, 18, 28, 0.65);
-      --card-border: rgba(255, 255, 255, 0.08);
-      --text: #f0f0f5;
-      --text-muted: #8e8ea6;
+      --bg: #06060b;
+      --card-bg: rgba(15, 15, 26, 0.45);
+      --card-border: rgba(255, 255, 255, 0.12);
+      --card-highlight: rgba(255, 255, 255, 0.16);
+      --text: #f3f3f8;
+      --text-muted: #8b8ba4;
       --accent-1: #6366f1;
       --accent-2: #ec4899;
       --accent-3: #06b6d4;
@@ -57,66 +56,131 @@
       font-family: 'Plus Jakarta Sans', sans-serif;
       min-height: 100vh;
       display: flex;
-      flex-direction: column;
       align-items: center;
       justify-content: center;
       position: relative;
       overflow-x: hidden;
-      padding: 24px 16px;
+      padding: 32px 16px;
     }
 
-    /* Calming Animated SVG Background */
-    .bg-canvas {
+    /* SVG Grain & Filter Definitions */
+    .svg-defs-container {
+      position: absolute;
+      width: 0;
+      height: 0;
+      pointer-events: none;
+      opacity: 0;
+    }
+
+    /* Ambient Space Texture */
+    .noise-overlay {
       position: fixed;
-      top: 0;
-      left: 0;
+      inset: 0;
       width: 100vw;
       height: 100vh;
+      opacity: 0.04;
+      pointer-events: none;
+      z-index: 1;
+      background-repeat: repeat;
+      filter: contrast(160%);
+    }
+
+    /* Giant Background Pendulum Rig */
+    .pendulum-rig {
+      position: fixed;
+      top: -40px;
+      left: 50%;
+      width: 4px;
+      height: 96vh;
+      transform-origin: top center;
       z-index: 0;
       pointer-events: none;
-      opacity: 0.85;
+      animation: pendulumHarmonic 2s cubic-bezier(0.445, 0.05, 0.55, 0.95) infinite alternate;
     }
 
-    .ambient-svg {
+    @keyframes pendulumHarmonic {
+      0% {
+        transform: translate(-50%, 0) rotate(-26deg);
+      }
+      100% {
+        transform: translate(-50%, 0) rotate(26deg);
+      }
+    }
+
+    @keyframes hueShiftAll {
+      0% { filter: hue-rotate(0deg); }
+      50% { filter: hue-rotate(180deg); }
+      100% { filter: hue-rotate(360deg); }
+    }
+
+    .pendulum-hue-rotator {
       width: 100%;
       height: 100%;
-    }
-
-    @keyframes driftOrb1 {
-      0%, 100% { cx: 20%; cy: 25%; r: 24%; }
-      50% { cx: 32%; cy: 45%; r: 28%; }
-    }
-    @keyframes driftOrb2 {
-      0%, 100% { cx: 80%; cy: 75%; r: 30%; }
-      50% { cx: 68%; cy: 60%; r: 25%; }
-    }
-    @keyframes driftOrb3 {
-      0%, 100% { cx: 65%; cy: 20%; r: 22%; }
-      50% { cx: 45%; cy: 35%; r: 26%; }
-    }
-    @keyframes slowSpin {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
-    }
-
-    .orb-1 { animation: driftOrb1 26s ease-in-out infinite alternate; }
-    .orb-2 { animation: driftOrb2 32s ease-in-out infinite alternate; }
-    .orb-3 { animation: driftOrb3 28s ease-in-out infinite alternate; }
-    .cosmic-ring {
-      transform-origin: 50% 50%;
-      animation: slowSpin 140s linear infinite;
-    }
-
-    /* Main Container */
-    .app-shell {
       position: relative;
-      z-index: 1;
+      animation: hueShiftAll 20s linear infinite;
+    }
+
+    /* Pendulum Rod */
+    .pendulum-rod {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 2px;
+      height: 82%;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.4) 0%, rgba(99, 102, 241, 0.25) 50%, rgba(236, 72, 153, 0.8) 100%);
+      box-shadow: 0 0 16px rgba(99, 102, 241, 0.6);
+    }
+
+    /* Giant Fuzzy, Grainy Pendulum Bob */
+    .pendulum-bob {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translate(-50%, 50%);
+      width: 280px;
+      height: 280px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #ec4899 0%, #8b5cf6 35%, #06b6d4 65%, transparent 75%);
+      filter: url(#pendulumFuzzGrain) blur(22px);
+      opacity: 0.62;
+    }
+
+    .pendulum-bob-core {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translate(-50%, 50%);
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #ffffff 0%, #ec4899 45%, transparent 70%);
+      filter: blur(8px);
+      opacity: 0.8;
+      box-shadow: 0 0 80px rgba(236, 72, 153, 0.9), 0 0 160px rgba(99, 102, 241, 0.7);
+    }
+
+    /* Unified Glass Container Card */
+    .glass-monolith {
+      position: relative;
+      z-index: 2;
       width: 100%;
-      max-width: 680px;
+      max-width: 620px;
+      padding: 38px 36px 30px;
       display: flex;
       flex-direction: column;
       align-items: center;
       gap: 28px;
+      border-radius: 36px;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      backdrop-filter: blur(48px) saturate(180%);
+      -webkit-backdrop-filter: blur(48px) saturate(180%);
+      box-shadow: 
+        0 30px 80px -15px rgba(0, 0, 0, 0.75),
+        0 0 0 1px rgba(255, 255, 255, 0.05),
+        inset 0 1px 1px var(--card-highlight),
+        inset 0 -1px 1px rgba(0, 0, 0, 0.4);
     }
 
     /* Header */
@@ -129,8 +193,8 @@
     }
 
     .brand-title {
-      font-size: 0.95rem;
-      letter-spacing: 0.28em;
+      font-size: 0.85rem;
+      letter-spacing: 0.3em;
       text-transform: uppercase;
       color: var(--text-muted);
       font-weight: 600;
@@ -148,17 +212,17 @@
       box-shadow: 0 0 8px #10b981;
     }
 
-    /* Hue Shifting Radial Clock Face */
+    /* Radial Clock Face */
     @keyframes hueRotateRing {
-      0% { filter: hue-rotate(0deg) drop-shadow(0 0 24px rgba(99, 102, 241, 0.45)); }
-      50% { filter: hue-rotate(180deg) drop-shadow(0 0 32px rgba(236, 72, 153, 0.5)); }
-      100% { filter: hue-rotate(360deg) drop-shadow(0 0 24px rgba(99, 102, 241, 0.45)); }
+      0% { filter: hue-rotate(0deg) drop-shadow(0 0 20px rgba(99, 102, 241, 0.45)); }
+      50% { filter: hue-rotate(180deg) drop-shadow(0 0 28px rgba(236, 72, 153, 0.5)); }
+      100% { filter: hue-rotate(360deg) drop-shadow(0 0 20px rgba(99, 102, 241, 0.45)); }
     }
 
     .clock-stage {
       position: relative;
-      width: 320px;
-      height: 320px;
+      width: 290px;
+      height: 290px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -168,7 +232,6 @@
       position: absolute;
       inset: 0;
       animation: hueRotateRing 24s linear infinite;
-      transition: filter 0.5s ease;
     }
 
     .clock-svg {
@@ -206,29 +269,30 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      background: radial-gradient(circle, rgba(14, 14, 25, 0.85) 0%, rgba(7, 7, 13, 0.95) 100%);
-      width: 260px;
-      height: 260px;
+      background: radial-gradient(circle, rgba(14, 14, 25, 0.72) 0%, rgba(7, 7, 13, 0.9) 100%);
+      width: 236px;
+      height: 236px;
       border-radius: 50%;
-      box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.9), 0 10px 40px rgba(0, 0, 0, 0.5);
-      border: 1px solid rgba(255, 255, 255, 0.06);
+      box-shadow: inset 0 0 25px rgba(0, 0, 0, 0.85), 0 8px 30px rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(12px);
     }
 
     .time-digits {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 3.8rem;
+      font-size: 3.4rem;
       font-weight: 300;
       letter-spacing: -0.04em;
       color: #ffffff;
-      text-shadow: 0 0 18px rgba(255, 255, 255, 0.2);
+      text-shadow: 0 0 16px rgba(255, 255, 255, 0.25);
     }
 
     .timer-caption {
-      font-size: 0.82rem;
+      font-size: 0.78rem;
       color: var(--text-muted);
-      letter-spacing: 0.15em;
+      letter-spacing: 0.16em;
       text-transform: uppercase;
-      margin-top: 4px;
+      margin-top: 3px;
       display: flex;
       align-items: center;
       gap: 6px;
@@ -240,7 +304,7 @@
       border-radius: 50%;
       background: #6366f1;
       opacity: 0.3;
-      transition: opacity 0.15s ease, transform 0.15s ease;
+      transition: opacity 0.12s ease, transform 0.12s ease;
     }
 
     .live-tick-dot.pulse {
@@ -249,14 +313,14 @@
       box-shadow: 0 0 10px #6366f1;
     }
 
-    /* Duration Presets */
+    /* Presets */
     .presets-row {
       display: flex;
-      gap: 8px;
-      background: rgba(255, 255, 255, 0.03);
+      gap: 6px;
+      background: rgba(255, 255, 255, 0.035);
       padding: 4px;
       border-radius: 999px;
-      border: 1px solid rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.07);
     }
 
     .preset-btn {
@@ -264,7 +328,7 @@
       border: none;
       color: var(--text-muted);
       font-family: 'Plus Jakarta Sans', sans-serif;
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       font-weight: 500;
       padding: 6px 14px;
       border-radius: 999px;
@@ -278,7 +342,7 @@
     }
 
     .preset-btn.active {
-      background: rgba(99, 102, 241, 0.25);
+      background: rgba(99, 102, 241, 0.3);
       color: #ffffff;
       border: 1px solid rgba(99, 102, 241, 0.5);
     }
@@ -294,34 +358,30 @@
       background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
       color: white;
       border: none;
-      padding: 14px 38px;
-      font-size: 1.05rem;
+      padding: 13px 36px;
+      font-size: 0.98rem;
       font-weight: 600;
       border-radius: 999px;
       cursor: pointer;
       display: flex;
       align-items: center;
       gap: 10px;
-      box-shadow: 0 4px 24px rgba(99, 102, 241, 0.35);
+      box-shadow: 0 4px 20px rgba(99, 102, 241, 0.35);
       transition: transform 0.15s ease, box-shadow 0.2s ease, filter 0.2s ease;
     }
 
     .btn-primary:hover {
       transform: translateY(-2px);
-      box-shadow: 0 8px 30px rgba(99, 102, 241, 0.5);
+      box-shadow: 0 8px 28px rgba(99, 102, 241, 0.5);
       filter: brightness(1.08);
-    }
-
-    .btn-primary:active {
-      transform: translateY(0);
     }
 
     .btn-secondary {
       background: rgba(255, 255, 255, 0.06);
       border: 1px solid rgba(255, 255, 255, 0.1);
       color: var(--text);
-      width: 48px;
-      height: 48px;
+      width: 44px;
+      height: 44px;
       border-radius: 50%;
       display: flex;
       align-items: center;
@@ -335,31 +395,28 @@
       transform: rotate(-30deg);
     }
 
-    /* Ambient Sound Mixer Panel */
-    .soundboard-card {
+    /* Ambient Mixer Subpanel */
+    .soundboard-section {
       width: 100%;
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      backdrop-filter: blur(24px);
-      -webkit-backdrop-filter: blur(24px);
-      border-radius: 24px;
-      padding: 22px 24px;
-      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
+      background: rgba(10, 10, 18, 0.45);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 20px;
+      padding: 18px 20px;
     }
 
     .soundboard-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 16px;
-      padding-bottom: 12px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      margin-bottom: 14px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
     }
 
     .soundboard-header h3 {
-      font-size: 0.9rem;
+      font-size: 0.82rem;
       font-weight: 600;
-      letter-spacing: 0.06em;
+      letter-spacing: 0.08em;
       text-transform: uppercase;
       color: var(--text-muted);
     }
@@ -368,33 +425,33 @@
       display: flex;
       align-items: center;
       gap: 10px;
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       color: var(--text-muted);
     }
 
     .master-vol-wrap input[type="range"] {
-      width: 90px;
+      width: 80px;
     }
 
     .ambient-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 14px;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px;
     }
 
     .sound-item {
       background: rgba(255, 255, 255, 0.025);
       border: 1px solid rgba(255, 255, 255, 0.05);
-      border-radius: 14px;
-      padding: 12px 14px;
+      border-radius: 12px;
+      padding: 10px 12px;
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 8px;
       transition: border-color 0.2s ease, background 0.2s ease;
     }
 
     .sound-item.active {
-      background: rgba(99, 102, 241, 0.08);
+      background: rgba(99, 102, 241, 0.1);
       border-color: rgba(99, 102, 241, 0.35);
     }
 
@@ -407,18 +464,18 @@
     .sound-info {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
     }
 
     .sound-icon {
-      width: 32px;
-      height: 32px;
-      border-radius: 10px;
-      background: rgba(255, 255, 255, 0.06);
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.05);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1rem;
+      font-size: 0.95rem;
     }
 
     .sound-item.active .sound-icon {
@@ -426,28 +483,23 @@
       color: #818cf8;
     }
 
-    .sound-labels {
-      display: flex;
-      flex-direction: column;
-    }
-
     .sound-title {
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       font-weight: 600;
       color: var(--text);
     }
 
     .sound-desc {
-      font-size: 0.72rem;
+      font-size: 0.68rem;
       color: var(--text-muted);
     }
 
-    /* Toggle Switch */
+    /* Switch */
     .switch {
       position: relative;
       display: inline-block;
-      width: 38px;
-      height: 22px;
+      width: 36px;
+      height: 20px;
       flex-shrink: 0;
     }
     .switch input { opacity: 0; width: 0; height: 0; }
@@ -462,8 +514,8 @@
     .slider:before {
       position: absolute;
       content: "";
-      height: 16px;
-      width: 16px;
+      height: 14px;
+      width: 14px;
       left: 3px;
       bottom: 3px;
       background-color: white;
@@ -477,7 +529,7 @@
       transform: translateX(16px);
     }
 
-    /* Custom Sliders */
+    /* Sliders */
     input[type=range] {
       -webkit-appearance: none;
       appearance: none;
@@ -490,8 +542,8 @@
     input[type=range]::-webkit-slider-thumb {
       -webkit-appearance: none;
       appearance: none;
-      width: 14px;
-      height: 14px;
+      width: 13px;
+      height: 13px;
       border-radius: 50%;
       background: #818cf8;
       cursor: pointer;
@@ -502,9 +554,9 @@
       transform: scale(1.2);
     }
 
-    /* Footer Shortcut indicator */
+    /* Footer Indicators */
     footer {
-      font-size: 0.76rem;
+      font-size: 0.72rem;
       color: rgba(255, 255, 255, 0.3);
       display: flex;
       gap: 16px;
@@ -520,44 +572,38 @@
 </head>
 <body>
 
-  <!-- Calming Animated SVG Background -->
-  <div class="bg-canvas">
-    <svg class="ambient-svg" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
-      <defs>
-        <radialGradient id="grad1" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stop-color="#4f46e5" stop-opacity="0.32" />
-          <stop offset="100%" stop-color="#07070d" stop-opacity="0" />
-        </radialGradient>
-        <radialGradient id="grad2" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stop-color="#db2777" stop-opacity="0.25" />
-          <stop offset="100%" stop-color="#07070d" stop-opacity="0" />
-        </radialGradient>
-        <radialGradient id="grad3" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stop-color="#0891b2" stop-opacity="0.22" />
-          <stop offset="100%" stop-color="#07070d" stop-opacity="0" />
-        </radialGradient>
-      </defs>
+  <!-- SVG Grain & Fuzz Filter Engine -->
+  <svg class="svg-defs-container">
+    <defs>
+      <filter id="pendulumFuzzGrain" x="-50%" y="-50%" width="200%" height="200%">
+        <!-- Fractal noise generation for grainy diffusion -->
+        <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" result="noise" />
+        <feColorMatrix type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 0.45 0" in="noise" result="coloredNoise" />
+        <feDisplacementMap in="SourceGraphic" in2="noise" scale="35" xChannelSelector="R" yChannelSelector="G" result="displaced" />
+        <feGaussianBlur in="displaced" stdDeviation="16" result="blurred" />
+        <feBlend in="blurred" in2="coloredNoise" mode="screen" />
+      </filter>
+    </defs>
+  </svg>
 
-      <circle class="orb-1" cx="20%" cy="25%" r="24%" fill="url(#grad1)" />
-      <circle class="orb-2" cx="80%" cy="75%" r="30%" fill="url(#grad2)" />
-      <circle class="orb-3" cx="65%" cy="20%" r="22%" fill="url(#grad3)" />
-
-      <!-- Subtle rotating constellation guide -->
-      <g class="cosmic-ring" opacity="0.12">
-        <circle cx="50%" cy="50%" r="380" stroke="#ffffff" stroke-width="1" stroke-dasharray="2 12" fill="none" />
-        <circle cx="50%" cy="50%" r="480" stroke="#ffffff" stroke-width="0.8" stroke-dasharray="4 24" fill="none" />
-      </g>
-    </svg>
+  <!-- Giant Glowing Gradient Shift, Fuzzy, Grainy Pendulum in Background -->
+  <div class="pendulum-rig">
+    <div class="pendulum-hue-rotator">
+      <div class="pendulum-rod"></div>
+      <div class="pendulum-bob"></div>
+      <div class="pendulum-bob-core"></div>
+    </div>
   </div>
 
-  <main class="app-shell">
+  <!-- Unified Refractive Glass Card Monolith -->
+  <main class="glass-monolith">
     <header>
       <div class="brand-title">
         <span></span> Deep Focus Mode
       </div>
     </header>
 
-    <!-- Radial Glowing Hue-Shifting Clock Face -->
+    <!-- Glowing Hue Shifting Radial Clock Face -->
     <div class="clock-stage">
       <div class="clock-svg-wrapper">
         <svg class="clock-svg" viewBox="0 0 320 320">
@@ -583,7 +629,7 @@
       </div>
     </div>
 
-    <!-- Quick Presets -->
+    <!-- Duration Presets -->
     <div class="presets-row">
       <button class="preset-btn" data-minutes="15">15m</button>
       <button class="preset-btn" data-minutes="25">25m</button>
@@ -598,12 +644,12 @@
         <span id="toggleText">Start Focus</span>
       </button>
       <button class="btn-secondary" id="resetBtn" title="Reset Session">
-        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+        <svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
       </button>
     </div>
 
-    <!-- Ambient Sound Mixer -->
-    <section class="soundboard-card">
+    <!-- Ambient Soundboard Sub-section -->
+    <section class="soundboard-section">
       <div class="soundboard-header">
         <h3>Sound Environment</h3>
         <div class="master-vol-wrap">
@@ -618,7 +664,7 @@
           <div class="sound-item-top">
             <div class="sound-info">
               <div class="sound-icon">⏱️</div>
-              <div class="sound-labels">
+              <div>
                 <div class="sound-title">Clock Tick</div>
                 <div class="sound-desc">Soft rhythmic pulse</div>
               </div>
@@ -636,7 +682,7 @@
           <div class="sound-item-top">
             <div class="sound-info">
               <div class="sound-icon">🌊</div>
-              <div class="sound-labels">
+              <div>
                 <div class="sound-title">Brownian Drift</div>
                 <div class="sound-desc">Deep low-frequency roar</div>
               </div>
@@ -654,7 +700,7 @@
           <div class="sound-item-top">
             <div class="sound-info">
               <div class="sound-icon">🌧️</div>
-              <div class="sound-labels">
+              <div>
                 <div class="sound-title">Gentle Rain</div>
                 <div class="sound-desc">Soft window rainfall</div>
               </div>
@@ -672,7 +718,7 @@
           <div class="sound-item-top">
             <div class="sound-info">
               <div class="sound-icon">🪵</div>
-              <div class="sound-labels">
+              <div>
                 <div class="sound-title">Cozy Hearth</div>
                 <div class="sound-desc">Warm fire & embers</div>
               </div>
@@ -690,7 +736,7 @@
           <div class="sound-item-top">
             <div class="sound-info">
               <div class="sound-icon">🧘</div>
-              <div class="sound-labels">
+              <div>
                 <div class="sound-title">Singing Drone</div>
                 <div class="sound-desc">108Hz harmonic bowl</div>
               </div>
@@ -712,7 +758,7 @@
   </main>
 
   <script>
-    /* Web Audio Synthesis Engine (Pure Web Audio - No Assets Needed) */
+    /* Procedural Web Audio Engine */
     class AudioEngine {
       constructor() {
         this.ctx = null;
@@ -819,7 +865,7 @@
         }
       }
 
-      /* Resonant Mechanical Clock Tick Synthesis */
+      /* Synchronous Mechanical Tick/Tock */
       playTick(isEven) {
         if (!this.isAudioReady || !this.sounds.clock.enabled) return;
 
@@ -827,11 +873,11 @@
         const tickGain = this.ctx.createGain();
         const filter = this.ctx.createBiquadFilter();
 
-        osc.frequency.setValueAtTime(isEven ? 1320 : 980, this.ctx.currentTime);
+        osc.frequency.setValueAtTime(isEven ? 1350 : 980, this.ctx.currentTime);
         osc.type = 'triangle';
 
         filter.type = 'bandpass';
-        filter.frequency.setValueAtTime(isEven ? 1400 : 1050, this.ctx.currentTime);
+        filter.frequency.setValueAtTime(isEven ? 1420 : 1050, this.ctx.currentTime);
         filter.Q.setValueAtTime(10, this.ctx.currentTime);
 
         const now = this.ctx.currentTime;
@@ -847,7 +893,6 @@
         osc.stop(now + 0.04);
       }
 
-      /* Procedural Brownian Noise Generator */
       createBrownian() {
         const bufferSize = 2 * this.ctx.sampleRate;
         const noiseBuffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
@@ -874,7 +919,6 @@
         this.sounds.brown.node = whiteNoise;
       }
 
-      /* Procedural Rain Generator */
       createRain() {
         const bufferSize = 2 * this.ctx.sampleRate;
         const noiseBuffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
@@ -904,7 +948,6 @@
         this.sounds.rain.node = rainSource;
       }
 
-      /* Procedural Cozy Fireplace Crackle */
       createFire() {
         const bufferSize = this.ctx.sampleRate * 2;
         const buffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
@@ -930,7 +973,6 @@
         this.sounds.fire.node = src;
       }
 
-      /* Tibetan 108Hz Singing Drone */
       createDrone() {
         const freqs = [108, 216.2, 324.5];
         this.sounds.drone.nodes = [];
@@ -949,7 +991,6 @@
         });
       }
 
-      /* Timer Completion Chime */
       playCompletionChime() {
         if (!this.isAudioReady) return;
         const chimeNotes = [528, 660, 792, 1056];
@@ -996,7 +1037,6 @@
     const sessionStatus = document.getElementById('sessionStatus');
     const presetBtns = document.querySelectorAll('.preset-btn');
 
-    // Init SVG Circle strokes
     trackProgress.style.strokeDasharray = `${CIRCUMFERENCE} ${CIRCUMFERENCE}`;
     trackGlow.style.strokeDasharray = `${CIRCUMFERENCE} ${CIRCUMFERENCE}`;
 
@@ -1066,7 +1106,6 @@
       audio.playCompletionChime();
     }
 
-    // Presets
     presetBtns.forEach(btn => {
       btn.addEventListener('click', () => {
         presetBtns.forEach(b => b.classList.remove('active'));
@@ -1080,7 +1119,6 @@
     toggleBtn.addEventListener('click', toggleTimer);
     resetBtn.addEventListener('click', resetTimer);
 
-    // Keyboard shortcuts
     window.addEventListener('keydown', (e) => {
       if (e.code === 'Space') {
         e.preventDefault();
@@ -1090,7 +1128,6 @@
       }
     });
 
-    // Soundboard Controls Bindings
     document.getElementById('masterVolume').addEventListener('input', (e) => {
       audio.setMasterVolume(parseFloat(e.target.value));
     });
@@ -1111,7 +1148,6 @@
       });
     });
 
-    // Initial render
     updateProgressVisual();
   </script>
 </body>
